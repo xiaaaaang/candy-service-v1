@@ -14,12 +14,12 @@ public class TelegramBotCommandMap
     private Dictionary<string, Func<Message, Task<Mod_Result>>> _map = new();
 
     //注入服务
-    private readonly IAccountOperationService _accountOperationService;
+    private readonly IAccountService _accountService;
     private readonly IConfiguration _configuration;
 
-    public TelegramBotCommandMap(IAccountOperationService accountOperationService, IConfiguration configuration)
+    public TelegramBotCommandMap(IAccountService accountService, IConfiguration configuration)
     {
-        _accountOperationService = accountOperationService;
+        _accountService = accountService;
         _configuration = configuration;
 
         //添加命令映射
@@ -29,7 +29,7 @@ public class TelegramBotCommandMap
 
             if (x.Chat.Type != ChatType.Private) return new Mod_Result().Failed("");
             
-            var startResult = await _accountOperationService.RegisterAccountAsync(x.From);
+            var startResult = await _accountService.RegisterAccountAsync(x.From);
             if (!startResult.Status)
             {
                 return new Mod_Result().Failed("Some minor errors were encountered, please try again later!");

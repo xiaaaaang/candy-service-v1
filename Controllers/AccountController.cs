@@ -8,13 +8,13 @@ namespace Candy.Service.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AccountOperationController : ControllerBase
+public class AccountController : ControllerBase
 {
-    private readonly IAccountOperationService _svcAccountOperation;
+    private readonly IAccountService _svcAccount;
 
-    public AccountOperationController(IAccountOperationService svcAccountOperation)
+    public AccountController(IAccountService svcAccount)
     {
-        _svcAccountOperation = svcAccountOperation;
+        _svcAccount = svcAccount;
     }
 
     [HttpPost("QueryAccountByUserId")]
@@ -24,6 +24,6 @@ public class AccountOperationController : ControllerBase
         {
             return new Mod_Result().Failed("The request parameter data cannot be empty.");
         }
-        return await _svcAccountOperation.QueryAccountByUserIdAsync(user.Data.UserId);
+        return await _svcAccount.QueryAccountByUserIdAsync(user.Data.UserId);
     }
 }

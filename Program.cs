@@ -43,7 +43,8 @@ internal class Program
         });
         builder.Services.AddSingleton<ITelegramBotService, TelegramBotService>();
         builder.Services.AddSingleton<TelegramBotCommandMap>();
-        builder.Services.AddSingleton<IAccountOperationService, AccountOperationService>();
+        builder.Services.AddSingleton<IAccountService, AccountService>();
+        builder.Services.AddSingleton<ITaskService, TaskService>();
         builder.Services.AddSingleton<ISqlSugarClient>(x =>
         {
             
@@ -55,7 +56,8 @@ internal class Program
                 IsAutoCloseConnection = true
             });
             scope.CodeFirst.InitTables(
-                typeof(Dbe_Account)
+                typeof(Dbe_Account),
+                typeof(Dbe_Task)
             );
             return scope;
         });

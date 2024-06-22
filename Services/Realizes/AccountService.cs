@@ -7,13 +7,13 @@ using Telegram.Bot.Types;
 
 namespace Candy.Service.API.Services.Realizes;
 
-public class AccountOperationService : IAccountOperationService
+public class AccountService : IAccountService
 {
     private readonly ITelegramBotClient _telegramBot;
     private readonly ISqlSugarClient _scope;
     private readonly IConfiguration _configuration;
 
-    public AccountOperationService(ITelegramBotClient telegramBot, ISqlSugarClient scope, IConfiguration configuration)
+    public AccountService(ITelegramBotClient telegramBot, ISqlSugarClient scope, IConfiguration configuration)
     {
         _telegramBot = telegramBot;
         _scope = scope;
@@ -51,8 +51,10 @@ public class AccountOperationService : IAccountOperationService
         var isRegistered = await _scope
             .Insertable(entity)
             .ExecuteCommandAsync();
-        
-        return new Mod_Result().Success(true, isRegistered > 0 ? "Registration is successful." : "Registration is Failed.");
+
+        return isRegistered > 0
+            ? new Mod_Result().Success(true, "Registration is successful.")
+            : new Mod_Result().Failed("Registration is Failed.");
     }
     
     public async Task<Mod_Result> QueryAccountByUserIdAsync(long userId)

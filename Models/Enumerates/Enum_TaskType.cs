@@ -2,5 +2,7 @@
 
 public enum Enum_TaskType
 {
-    Normal
+    OneOff,
+    Circular,
+    LongTerm
 }
